@@ -26,7 +26,8 @@ class Calculator extends Component {
             previousInputValue: 0,
             inputValue: 0,
             selectedSymbol: null,
-            operator: null
+            operator: null,
+            calculation: null
         }
     }
 
@@ -35,6 +36,7 @@ class Calculator extends Component {
             <View style={Style.rootContainer}>
                 <View style={Style.displayContainer}>
                     <Text style={Style.appsTitle}>React Calculator</Text>
+                    <Text style={Style.calculationText}>{this.state.calculation}</Text>
                     <Text style={Style.displayText}>{this.state.inputValue}</Text>
                 </View>
                 <View style={Style.inputContainer}>
@@ -70,12 +72,13 @@ class Calculator extends Component {
     }
 
     _handleNumberInput(num) {
-        var inVal = this.state.inputValue;
+        let inVal = this.state.inputValue,
+            inputValue = null;
 
         if (inVal[inVal.length - 1] !== '.') {
-            var inputValue = (this.state.inputValue * 10) + num;
+            inputValue = (this.state.inputValue * 10) + num
         } else {
-            var inputValue = inVal.toString() + num;
+            inputValue = inVal.toString() + num
         }
 
         this.setState({
@@ -141,7 +144,8 @@ class Calculator extends Component {
                 this.setState({
                     previousInputValue: 0,
                     inputValue: result,
-                    selectedSymbol: null
+                    selectedSymbol: null,
+                    calculation: previousInputValue +' '+ symbol +' '+ inputValue
                 });
                 break;
             case 'C':

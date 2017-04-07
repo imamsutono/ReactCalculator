@@ -16,11 +16,16 @@ const Style = StyleSheet.create({
         backgroundColor: '#E0E0E0',
         justifyContent: 'center'
     },
+    calculationText: {
+        color: '#757575',
+        textAlign: 'right',
+        padding: 4
+    },
     displayText: {
         color: '#FFA000',
         fontSize: 38,
         textAlign: 'right',
-        padding: 20
+        padding: 16
     },
 
     inputContainer: {
