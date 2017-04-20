@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    Navigator,
     AppRegistry
 } from 'react-native';
 
@@ -25,9 +24,10 @@ class Calculator extends Component {
         this.state = {
             previousInputValue: 0,
             inputValue: 0,
+            calculation: 0,
             selectedSymbol: null,
             operator: null,
-            calculation: null
+            finalCalculation: null
         }
     }
 
@@ -36,8 +36,8 @@ class Calculator extends Component {
             <View style={Style.rootContainer}>
                 <View style={Style.displayContainer}>
                     <Text style={Style.appsTitle}>React Calculator</Text>
-                    <Text style={Style.calculationText}>{this.state.calculation}</Text>
-                    <Text style={Style.displayText}>{this.state.inputValue}</Text>
+                    <Text style={Style.calculationText}>{this.state.finalCalculation}</Text>
+                    <Text style={Style.displayText}>{this.state.calculation}</Text>
                 </View>
                 <View style={Style.inputContainer}>
                     {this._renderInputButtons()}
@@ -73,16 +73,19 @@ class Calculator extends Component {
 
     _handleNumberInput(num) {
         let inVal = this.state.inputValue,
-            inputValue = null;
+            calc = this.state.calculation;
 
-        if (inVal[inVal.length - 1] !== '.') {
-            inputValue = (this.state.inputValue * 10) + num
+        if (typeof calc[calc.length - 1] !== 'string') {
+            inputValue = (this.state.inputValue * 10) +num
+            calculation = (this.state.inputValue * 10) +num
         } else {
             inputValue = inVal.toString() + num
+            calculation = calc +' '+ num
         }
 
         this.setState({
-            inputValue: inputValue
+            inputValue: inputValue,
+            calculation: calculation
         })
     }
 
@@ -97,7 +100,8 @@ class Calculator extends Component {
                     selectedSymbol: str,
                     operator: str,
                     previousInputValue: value,
-                    inputValue: 0
+                    inputValue: 0,
+                    calculation: value +' '+ str
                 });
                 break;
             case 'X':
@@ -105,7 +109,8 @@ class Calculator extends Component {
                     selectedSymbol: str,
                     operator: '*',
                     previousInputValue: value,
-                    inputValue: 0
+                    inputValue: 0,
+                    calculation: value +' '+ str
                 });
                 break;
             case '%':
@@ -113,7 +118,8 @@ class Calculator extends Component {
                     selectedSymbol: str,
                     operator: '*',
                     previousInputValue: value / 100,
-                    inputValue: 0
+                    inputValue: 0,
+                    calculation: value +' '+ str
                 });
                 break;
             case 'x^':
@@ -121,7 +127,8 @@ class Calculator extends Component {
                     selectedSymbol: str,
                     operator: '*',
                     previousInputValue: value,
-                    inputValue: 0
+                    inputValue: 0,
+                    calculation: value +' '+ str
                 });
                 break;
             case '=':
@@ -131,9 +138,7 @@ class Calculator extends Component {
                     previousInputValue = this.state.previousInputValue,
                     result = null;
 
-                if (!symbol) {
-                    return;
-                }
+                if (!symbol) { return; }
 
                 if (symbol !== 'x^') {
                     result = eval(previousInputValue + operator + inputValue)
@@ -141,32 +146,41 @@ class Calculator extends Component {
                     result = Math.pow(previousInputValue, inputValue)
                 }
 
+                if (inputValue.charAt(0) === '0') {
+                    var lastValue = inputValue.substr(1);
+                }
+
                 this.setState({
                     previousInputValue: 0,
                     inputValue: result,
                     selectedSymbol: null,
-                    calculation: previousInputValue +' '+ symbol +' '+ inputValue
+                    calculation: result,
+                    finalCalculation: previousInputValue +' '+ symbol +' '+ lastValue
                 });
                 break;
             case 'C':
                 this.setState({
-                    inputValue: 0
+                    inputValue: 0,
+                    calculation: 0,
+                    finalCalculation: null
                 });
                 break;
             case 'DEL':
                 this.setState({
-                    inputValue: this._substring(value)
+                    inputValue: this._delete(value),
+                    calculation: this._delete(value)
                 });
                 break;
             case '.':
                 this.setState({
-                    inputValue: value +'.'
+                    inputValue: value +'.',
+                    calculation: value +'.'
                 });
                 break;
         }
     }
 
-    _substring(num) {
+    _delete(num) {
         return num.toString().substring(0, num.toString().length - 1);
     }
 }
