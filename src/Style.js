@@ -30,19 +30,25 @@ const Style = StyleSheet.create({
 
     inputContainer: {
         flex: 7,
-        backgroundColor: '#FFA000'
+        backgroundColor: '#EEEEEE'
     },
     inputButton: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 0.5,
-        borderColor: '#FFE082'
+        borderColor: '#BDBDBD'
     },
     inputButtonText: {
         fontSize: 22,
         fontWeight: '200',
-        color: '#F5F5F5'
+        color: '#616161'
+    },
+    inputButtonNumber: {
+       backgroundColor: '#FFA000' 
+    },
+    inputButtonTextNumber: {
+        color: '#EAEAEA'
     },
     inputRow: {
         flex: 1,

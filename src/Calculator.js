@@ -92,91 +92,95 @@ class Calculator extends Component {
     _handleStringInput(str) {
         var value = this.state.inputValue
 
-        switch (str) {
-            case '/':
-            case '+':
-            case '-':
-                this.setState({
-                    selectedSymbol: str,
-                    operator: str,
-                    previousInputValue: value,
-                    inputValue: 0,
-                    calculation: value +' '+ str
-                });
-                break;
-            case 'X':
-                this.setState({
-                    selectedSymbol: str,
-                    operator: '*',
-                    previousInputValue: value,
-                    inputValue: 0,
-                    calculation: value +' '+ str
-                });
-                break;
-            case '%':
-                this.setState({
-                    selectedSymbol: str,
-                    operator: '*',
-                    previousInputValue: value / 100,
-                    inputValue: 0,
-                    calculation: value +' '+ str
-                });
-                break;
-            case 'x^':
-                this.setState({
-                    selectedSymbol: str,
-                    operator: '*',
-                    previousInputValue: value,
-                    inputValue: 0,
-                    calculation: value +' '+ str
-                });
-                break;
-            case '=':
-                let symbol = this.state.selectedSymbol,
-                    operator = this.state.operator,
-                    inputValue = value,
-                    previousInputValue = this.state.previousInputValue,
-                    result = null;
+        if (value !== 0) {
 
-                if (!symbol) { return; }
+            switch (str) {
+                case '/':
+                case '+':
+                case '-':
+                    this.setState({
+                        selectedSymbol: str,
+                        operator: str,
+                        previousInputValue: value,
+                        inputValue: 0,
+                        calculation: value +' '+ str
+                    });
+                    break;
+                case 'X':
+                    this.setState({
+                        selectedSymbol: str,
+                        operator: '*',
+                        previousInputValue: value,
+                        inputValue: 0,
+                        calculation: value +' '+ str
+                    });
+                    break;
+                case '%':
+                    this.setState({
+                        selectedSymbol: str,
+                        operator: '*',
+                        previousInputValue: value / 100,
+                        inputValue: 0,
+                        calculation: value +' '+ str
+                    });
+                    break;
+                case 'x^':
+                    this.setState({
+                        selectedSymbol: str,
+                        operator: '*',
+                        previousInputValue: value,
+                        inputValue: 0,
+                        calculation: value +' '+ str
+                    });
+                    break;
+                case '=':
+                    let symbol = this.state.selectedSymbol,
+                        operator = this.state.operator,
+                        inputValue = value,
+                        previousInputValue = this.state.previousInputValue,
+                        result = null;
 
-                if (symbol !== 'x^') {
-                    result = eval(previousInputValue + operator + inputValue)
-                } else {
-                    result = Math.pow(previousInputValue, inputValue)
-                }
+                    if (!symbol) { return; }
 
-                if (inputValue.charAt(0) === '0') {
-                    var lastValue = inputValue.substr(1);
-                }
+                    if (symbol !== 'x^') {
+                        result = eval(previousInputValue + operator + inputValue)
+                    } else {
+                        result = Math.pow(previousInputValue, inputValue)
+                    }
 
-                this.setState({
-                    previousInputValue: 0,
-                    inputValue: result,
-                    selectedSymbol: null,
-                    calculation: result,
-                    finalCalculation: previousInputValue +' '+ symbol +' '+ lastValue
-                });
-                break;
-            case 'C':
-                this.setState({
-                    inputValue: 0,
-                    calculation: 0,
-                    finalCalculation: null
-                });
-                break;
-            case 'DEL':
-                this.setState({
-                    inputValue: this._delete(value),
-                    calculation: this._delete(value)
-                });
-                break;
-            case '.':
-                this.setState({
-                    inputValue: value +'.',
-                    calculation: value +'.'
-                });
-                break;
+                    if (inputValue.charAt(0) === '0') {
+                        var lastValue = inputValue.substr(1);
+                    }
+
+                    this.setState({
+                        previousInputValue: 0,
+                        inputValue: result,
+                        selectedSymbol: null,
+                        calculation: result,
+                        finalCalculation: previousInputValue +' '+ symbol +' '+ lastValue
+                    });
+                    break;
+                case 'C':
+                    this.setState({
+                        inputValue: 0,
+                        calculation: 0,
+                        finalCalculation: null
+                    });
+                    break;
+                case 'DEL':
+                    this.setState({
+                        inputValue: this._delete(value),
+                        calculation: this._delete(value)
+                    });
+                    break;
+                case '.':
+                    this.setState({
+                        inputValue: value +'.',
+                        calculation: value +'.'
+                    });
+                    break;
+            }
+
         }
     }
 
